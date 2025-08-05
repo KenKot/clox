@@ -5,4 +5,7 @@
 #include <stddef.h> // for stuff like size_t, NULL
 #include <stdint.h> // i8, u32, etc.
 
+#define DEBUT_TRACE_EXECUTION
+
+
 #endif

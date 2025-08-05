@@ -8,6 +8,7 @@
 int main(int argc, const char *argv[]) {
     initVM();
 
+
     Chunk chunk;
     initChunk(&chunk);
     int constant = addConstant(&chunk, 1.2); // returns the index for assocated value in the constant pool array
