@@ -19,6 +19,7 @@ static void repl() {
     }
 
     interpret(line);
+
   }
 } 
 
