@@ -6,6 +6,7 @@
 #include <stdint.h> // i8, u32, etc.
 
 #define DEBUT_TRACE_EXECUTION
+#define DEBUG_PRINT_CODE
 
 
 #endif
