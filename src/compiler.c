@@ -201,6 +201,7 @@ static void number() {
 }
 
 static void string() {
+    // +1 and -2 trim quotes
   emitConstant(OBJ_VAL(copyString(parser.previous.start + 1,
                                   parser.previous.length - 2)));
 }
