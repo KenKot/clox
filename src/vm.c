@@ -28,9 +28,12 @@ static void runtimeError(const char *format, ...) {
     int line = vm.chunk->lines[instruction];
     fprintf(stderr, "[line %d] in script\n", line);
     resetStack();
+    vm.objects = NULL;
 }
 
-void freeVM() {}
+void freeVM() {
+    freeObjects();
+}
 
 void push(Value value) {
     *vm.stackTop = value;

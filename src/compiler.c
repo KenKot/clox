@@ -209,7 +209,7 @@ static void string() {
 static void unary() {
     TokenType operatorType = parser.previous.type;
 
-    // Compile the operand.
+   // Compile the operand.
     parsePrecedence(PREC_UNARY);
 
     // Emit the operator instruction.
