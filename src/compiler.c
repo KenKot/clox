@@ -95,14 +95,12 @@ static void consume(TokenType type, const char *message) {
     errorAtCurrent(message);
 }
 
-static bool match(TokenType type) {
-  if (!check(type)) return false;
-  advance();
-  return true;
-}
+static bool check(TokenType type) { return parser.current.type == type; }
 
-static bool check(TokenType type) {
-  return parser.current.type == type;
+static bool match(TokenType type) {
+    if (!check(type)) return false;
+    advance();
+    return true;
 }
 
 static void emitByte(uint8_t byte) {
@@ -142,9 +140,9 @@ static void endCompiler() {
 static void expression();
 
 static void printStatement() {
-  expression();
-  consume(TOKEN_SEMICOLON, "Expect ';' after value.");
-  emitByte(OP_PRINT);
+    expression();
+    consume(TOKEN_SEMICOLON, "Expect ';' after value.");
+    emitByte(OP_PRINT);
 }
 
 static ParseRule *getRule(TokenType type);
@@ -307,14 +305,20 @@ static void statement();
 static void declaration();
 static void expression() { parsePrecedence(PREC_ASSIGNMENT); }
 
-static void declaration() {
-  statement();
+static void expressionStatement() {
+  expression();
+  consume(TOKEN_SEMICOLON, "Expect ';' after expression.");
+  emitByte(OP_POP);
 }
 
+static void declaration() { statement(); }
+
 static void statement() {
-  if (match(TOKEN_PRINT)) {
-    printStatement();
-  }
+    if (match(TOKEN_PRINT)) {
+        printStatement();
+    } else {
+        expressionStatement();
+    }
 }
 
 void compile(const char *source) {

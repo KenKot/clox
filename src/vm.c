@@ -113,6 +113,8 @@ static InterpretResult run() {
             case OP_FALSE:
                 push(BOOL_VAL(false));
                 break;
+            case OP_POP:
+                return simpleInstruction("OP_POP", offset);
             case OP_EQUAL: {
                 Value b = pop();
                 Value a = pop();
@@ -166,8 +168,8 @@ static InterpretResult run() {
             }
 
             case OP_RETURN: {
-                printValue(pop());
-                printf("\n");
+                // printValue(pop());
+                // printf("\n");
                 return INTERPRET_OK;
             }
         }
