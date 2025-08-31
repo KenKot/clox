@@ -202,14 +202,14 @@ static void number() {
 
 static void string() {
     // +1 and -2 trim quotes
-  emitConstant(OBJ_VAL(copyString(parser.previous.start + 1,
-                                  parser.previous.length - 2)));
+    emitConstant(OBJ_VAL(
+        copyString(parser.previous.start + 1, parser.previous.length - 2)));
 }
 
 static void unary() {
     TokenType operatorType = parser.previous.type;
 
-   // Compile the operand.
+    // Compile the operand.
     parsePrecedence(PREC_UNARY);
 
     // Emit the operator instruction.
@@ -286,8 +286,19 @@ static void parsePrecedence(Precedence precedence) {
 }
 
 static ParseRule *getRule(TokenType type) { return &rules[type]; }
-
+static void statement();
+static void declaration();
 static void expression() { parsePrecedence(PREC_ASSIGNMENT); }
+
+static void declaration() {
+  statement();
+}
+
+static void statement() {
+  if (match(TOKEN_PRINT)) {
+    printStatement();
+  }
+}
 
 void compile(const char *source) {
     initScanner(source);
@@ -297,8 +308,9 @@ void compile(const char *source) {
     parser.panicMode = false;
 
     advance();
-    expression();
-    consume(TOKEN_EOF, "Expect end of expression.");
+    while (!match(TOKEN_EOF)) {
+        declaration();
+    }
     endCompiler();
     return !parser.hadError;
 }
